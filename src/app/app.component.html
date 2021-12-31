@@ -31,16 +31,17 @@
     (dataSourceChanged)="dataStateChange($event)"
   >
     <e-columns>
-      <e-column *ngFor="let column of columns"
-      field={{column.field}}
-      id="taskID"
-      headerText={{column.headerText}}
-      width="100"
-    textAlign={{column.textAlign}}
-      type="number"
-      isPrimaryKey={{column.isPrimaryKey}}
-      [edit]="editparams"
-    ></e-column>
+      <e-column
+        *ngFor="let column of columns"
+        field="{{ column.field }}"
+        id="taskID"
+        headerText="{{ column.headerText }}"
+        width="100"
+        textAlign="{{ column.textAlign }}"
+        type="number"
+        isPrimaryKey="{{ column.isPrimaryKey }}"
+        [edit]="editparams"
+      ></e-column>
       <!-- <e-column
         field="taskID"
         id="taskID"
@@ -209,7 +210,7 @@
   </ejs-treegrid>
 </div>
 
-<div #container class="root-container"></div>
+<!-- <div #container class="root-container"></div>
 <ejs-dialog
   id="dialog"
   #ejDialog
@@ -236,6 +237,6 @@
       </tr>
     </table>
   </div>
-</ejs-dialog>
+</ejs-dialog> -->
 
 <router-outlet></router-outlet>
