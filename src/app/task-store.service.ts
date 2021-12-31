@@ -16,7 +16,7 @@ const httpOption = {
 })
 
 export class TaskStoreService extends Subject<DataStateChangeEventArgs> {
-  private apiUrl = 'http://localhost:4000';
+  private apiUrl = 'http://139.59.59.163:4000';
   constructor(private http: HttpClient) {
     super();
   }
