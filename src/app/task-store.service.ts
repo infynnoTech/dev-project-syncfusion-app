@@ -14,9 +14,8 @@ const httpOption = {
 @Injectable({
   providedIn: 'root',
 })
-
 export class TaskStoreService extends Subject<DataStateChangeEventArgs> {
-  private apiUrl = 'http://139.59.59.163:4000';
+  private apiUrl = 'https://angularapi.onrender.com';
   constructor(private http: HttpClient) {
     super();
   }
@@ -26,30 +25,30 @@ export class TaskStoreService extends Subject<DataStateChangeEventArgs> {
       state.childDataBind();
     } else {
       // let data;
-      this.getAllTasks(state).subscribe(
-        (x) => {
-          // console.log({ x });
-          // data = x;
-          //@ts-ignore
-          return super.next(x as DataStateChangeEventArgs)
-        }
-      );
+      this.getAllTasks(state).subscribe((x) => {
+        // console.log({ x });
+        // data = x;
+        //@ts-ignore
+        return super.next(x as DataStateChangeEventArgs);
+      });
       // return data;
     }
   }
 
   getAllTasks(state?: any): Observable<TaskModel[]> {
     return this.http
-      .get<TaskModel[]>(`${this.apiUrl}/getAllTasks`, { headers: httpOption.headers })
+      .get<TaskModel[]>(`${this.apiUrl}/getAllTasks`, {
+        headers: httpOption.headers,
+      })
       .pipe(
         map((response: any) => {
           console.log({ response });
-          return <any> response
-            // result:
-            //   state.take > 0
-            //     ? response.slice(state.skip, state.take)
-            //     : response,
-            // count: response.length,
+          return <any>response;
+          // result:
+          //   state.take > 0
+          //     ? response.slice(state.skip, state.take)
+          //     : response,
+          // count: response.length,
           // };
         })
       );
@@ -57,16 +56,20 @@ export class TaskStoreService extends Subject<DataStateChangeEventArgs> {
 
   setAllTasks(fd: any, state?: any): Observable<TaskModel[]> {
     return this.http
-      .post<TaskModel[]>(`${this.apiUrl}/setAllTasks`, {data: fd}, { headers: httpOption.headers })
+      .post<TaskModel[]>(
+        `${this.apiUrl}/setAllTasks`,
+        { data: fd },
+        { headers: httpOption.headers }
+      )
       .pipe(
         map((response: any) => {
           console.log({ response });
-          return <any> response
-            // result:
-            //   state.take > 0
-            //     ? response.slice(state.skip, state.take)
-            //     : response,
-            // count: response.length,
+          return <any>response;
+          // result:
+          //   state.take > 0
+          //     ? response.slice(state.skip, state.take)
+          //     : response,
+          // count: response.length,
           // };
         })
       );
