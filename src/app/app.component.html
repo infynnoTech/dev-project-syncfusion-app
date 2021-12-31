@@ -1,0 +1,241 @@
+<!-- [allowPaging]="true" -->
+<!-- [toolbar]="toolbar" -->
+<div class="control-section" style="height: 100vh">
+  <ejs-treegrid
+    #treegrid
+    [dataSource]="tasks | async"
+    height="100%"
+    idMapping="taskID"
+    hasChildMapping="isParent"
+    childMapping="subtasks"
+    [treeColumnIndex]="1"
+    [allowSorting]="true"
+    [sortSettings]="sortSettings"
+    [pageSettings]="pageSettings"
+    [showColumnChooser]="true"
+    [allowResizing]="true"
+    [allowReordering]="true"
+    [contextMenuItems]="contextMenuItems"
+    (contextMenuClick)="contextMenuClick($event)"
+    (contextMenuOpen)="contextMenuOpen($event)"
+    [editSettings]="editSettings"
+    [selectionSettings]="selectionSettings"
+    [enableInfiniteScrolling]="true"
+    [frozenColumns]="frozenColumns"
+    [allowFiltering]="allowFiltering"
+    [filterSettings]="filterSettings"
+    [allowRowDragAndDrop]="true"
+    (actionBegin)="actionBegin($event)"
+    (actionComplete)="actionComplete($event)"
+    (dataStateChange)="dataStateChange($event)"
+    (dataSourceChanged)="dataStateChange($event)"
+  >
+    <e-columns>
+      <e-column *ngFor="let column of columns"
+      field={{column.field}}
+      id="taskID"
+      headerText={{column.headerText}}
+      width="100"
+    textAlign={{column.textAlign}}
+      type="number"
+      isPrimaryKey={{column.isPrimaryKey}}
+      [edit]="editparams"
+    ></e-column>
+      <!-- <e-column
+        field="taskID"
+        id="taskID"
+        headerText="Task ID"
+        width="100"
+        textAlign="Right"
+        type="number"
+        isPrimaryKey="true"
+        [edit]="editparams"
+      ></e-column>
+      <e-column
+        field="taskName"
+        id="taskName"
+        headerText="Task Name"
+        width="220"
+        maxWidth="300"
+        minWidth="120"
+      ></e-column>
+      <e-column
+        field="startDate"
+        id="startDate"
+        headerText="Start Date"
+        width="135"
+        textAlign="Right"
+        editType="datepickeredit"
+        [edit]="editOptions"
+      ></e-column>
+      <e-column
+        field="endDate"
+        id="endDate"
+        headerText="End Date"
+        width="135"
+        format="yMd"
+        textAlign="Right"
+        editType="datepickeredit"
+        [edit]="editOptions"
+      ></e-column>
+      <e-column
+      field="duration"
+      id="duration"
+      headerText="Duration"
+      width="120"
+      textAlign="Right"
+    ></e-column>
+    <e-column
+      field="progress"
+      id="progress"
+      headerText="Progress"
+      width="120"
+      textAlign="Right"
+    ></e-column>
+      <e-column
+        field="priority"
+        id="priority"
+        headerText="Priority"
+        width="135"
+        textAlign="Left"
+      ></e-column> -->
+      <!-- <e-column
+        field={{column.field}}
+        headerText={{column.headerText}}
+        width={{column.width}}
+        textAlign={{column.textAlign}}
+        type={{column.type}}
+        isPrimaryKey={{column.isPrimaryKey}}
+      ></e-column> -->
+    </e-columns>
+    <ng-template #editSettingsTemplate let-data>
+      <div ngform>
+        <div class="form-group">
+          <div class="e-float-input e-control-wrapper">
+            <input
+              name="taskID"
+              type="number"
+              [(ngModel)]="taskData.taskID"
+              [attr.disabled]="!data.isAdd ? '' : null"
+            />
+            <label class="e-float-text e-label-top" for="taskID">
+              Task ID
+            </label>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="e-float-input e-control-wrapper">
+            <input
+              name="taskName"
+              type="text"
+              [(ngModel)]="taskData.taskName"
+            />
+            <label class="e-float-text e-label-top" for="taskName">
+              Task Name
+            </label>
+          </div>
+        </div>
+        <div class="form-group">
+          <ejs-numerictextbox
+            name="progress"
+            placeholder="Progress"
+            floatLabelType="Always"
+            [(ngModel)]="taskData.progress"
+          ></ejs-numerictextbox>
+        </div>
+        <div class="form-group">
+          <ejs-datepicker
+            name="startDate"
+            placeholder="Start Date"
+            floatLabelType="Always"
+            [(ngModel)]="taskData.startDate"
+          ></ejs-datepicker>
+        </div>
+        <div class="form-group">
+          <ejs-datepicker
+            name="startDate"
+            placeholder="End Date"
+            floatLabelType="Always"
+            [(ngModel)]="taskData.endDate"
+          ></ejs-datepicker>
+        </div>
+        <div class="form-group">
+          <ejs-numerictextbox
+            name="duration"
+            placeholder="Duration"
+            floatLabelType="Always"
+            [(ngModel)]="taskData.duration"
+          ></ejs-numerictextbox>
+        </div>
+        <div class="form-group">
+          <div class="e-float-input e-control-wrapper">
+            <input
+              name="priority"
+              type="text"
+              [(ngModel)]="taskData.priority"
+            />
+            <label class="e-float-text e-label-top" for="priority">
+              Priority
+            </label>
+          </div>
+        </div>
+        <div class="form-group">
+          <div
+            class="e-float-input e-control-wrapper"
+            style="display: flex; justify-content: flex-end"
+          >
+            <button
+              ejs-button
+              cssClass="e-flat e-primary"
+              content="Save"
+              type="submit"
+              (click)="onSave($event)"
+            >
+              Save
+            </button>
+            <button
+              ejs-button
+              cssClass="e-flat"
+              content="Cancel"
+              type="button"
+              (click)="onCancel()"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </ejs-treegrid>
+</div>
+
+<div #container class="root-container"></div>
+<ejs-dialog
+  id="dialog"
+  #ejDialog
+  isModal="true"
+  content="This is a modal dialog"
+  width="50%"
+>
+  <div id="dialog">
+    <table style="width: 405px" id="poschange">
+      <tr>
+        <td><input id="radio1" type="radio" name="xy" /></td>
+        <td><input id="radio2" type="radio" name="xy" /></td>
+        <td><input id="radio3" type="radio" name="xy" /></td>
+      </tr>
+      <tr>
+        <td><input id="radio4" type="radio" name="xy" /></td>
+        <td><input id="radio5" type="radio" name="xy" /></td>
+        <td><input id="radio6" type="radio" name="xy" /></td>
+      </tr>
+      <tr>
+        <td><input id="radio7" type="radio" name="xy" /></td>
+        <td><input id="radio8" type="radio" name="xy" /></td>
+        <td><input id="radio9" type="radio" name="xy" /></td>
+      </tr>
+    </table>
+  </div>
+</ejs-dialog>
+
+<router-outlet></router-outlet>
